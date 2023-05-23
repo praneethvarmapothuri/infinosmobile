@@ -149,6 +149,27 @@ router.post("/update_heater",(req,res)=>{
 
 })
 
+router.post("/update_heater_temp",(req,res)=>{
+	const heater_id=req.body.heater_id
+	const obs_temp=req.body.obs_temp ;
+	Heater.updateOne({"_id":heater_id},{$push:{observed_temp:obs_temp}}).then(heater=>{
+		res.status(200).json(heater);
+	}).catch(err => {
+		res.status(400).send(err);
+	});	
+})
+
+router.post("/update_cooler_temp",(req,res)=>{
+	const heater_id=req.body.cooler_id
+	const obs_temp=req.body.obs_temp ;
+	Heater.updateOne({"_id":heater_id},{$push:{observed_temp:obs_temp}}).then(heater=>{
+		res.status(200).json(heater);
+	}).catch(err => {
+		res.status(400).send(err);
+	});	
+})
+
+
 router.post("/update_device",(req,res)=>{
 	const device_id=req.body.device_id
 	const status = req.body.status ;
