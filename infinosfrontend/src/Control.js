@@ -449,17 +449,17 @@ function Control(){
        { control && Heating.map((item,index) =>
         <div className="components">
             <p className="header">{Heating[index].name}</p>
-            {/* <div style={{float:"left"}} className="leftlabels">
+            <div style={{float:"left"}} className="leftlabels">
             <p className="headinglabel">Desired Temperature</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
-                InputProps={{ sx: { height: 30,fontSize:10 } }} onChange={HeatTempChange(index)} value={Heating[index]["desired_temp"]}
+                InputProps={{ sx: { height: 30,fontSize:10 } }} value={Heating[index]["desired_temp"]}
             >
             </TextField>
             <h6 className="headinglabel-1" sx={{float:"left",marginBottom:"0px"}}>Continous&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discrete&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fan</h6>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"110px"}}  checked={item.continous} onChange={HeatContChange(index)}/>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"5px"}}  checked={item.discrete} onChange={HeatDisChange(index)}/>
-            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} onChange={HeatFanChange(index)} checked={item.fan}/> */}
+            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} onChange={HeatFanChange(index)} checked={item.fan}/>
             <div style={{float:"left"}} className="leftlabels-2">
             <p className="headinglabel">Observable Temperature</p>
             </div>
@@ -480,17 +480,17 @@ function Control(){
         { control && Cooling.map((item,index) =>
         <div className="components">
             <p className="header">{item.name}</p>
-            {/* <div style={{float:"left"}} className="leftlabels">
+            <div style={{float:"left"}} className="leftlabels">
             <p className="headinglabel">Desired Temperature</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
-                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.desired_temp} onChange={CoolTempChange(index)}
+                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.desired_temp}
             >
             </TextField>
             <h6 className="headinglabel-1" sx={{float:"left",marginBottom:"0px"}}>Continous&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discrete&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fan</h6>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"110px"}} defaultChecked checked={item.continous} onChange={CoolContChange(index)}/>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"5px"}} defaultChecked checked={item.discrete} onChange={CoolDisChange(index)}/>
-            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} defaultChecked checked={item.fan} onChange={CoolFanChange(index)}/> */}
+            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} defaultChecked checked={item.fan} onChange={CoolFanChange(index)}/>
             <div style={{float:"left"}} className="leftlabels-2">
             <p className="headinglabel">Observable Temperature</p>
             </div>
