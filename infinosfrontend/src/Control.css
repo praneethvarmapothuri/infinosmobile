@@ -65,10 +65,18 @@
 
     .components{
         width:313px ;
+        height:200px ;
+        margin-left:30px ;
+        border: 1px solid black;
+    }
+
+    .batterycomponents{
+        width:313px ;
         height:330px ;
         margin-left:30px ;
         border: 1px solid black;
     }
+
 
     .leftlabels{
         width:88px ;
@@ -140,10 +148,20 @@
         height:30px ;
         background: linear-gradient(180deg, #53e1d9, #0473d9);
         border-radius: 15px; 
-        margin-top: 105px;  
+        margin-top: 68px;  
         margin-left:15px ;
         position:absolute ;     
     }
+
+    .left-labels-last-battery{
+        width:88px ;
+        height:30px ;
+        background: linear-gradient(180deg, #53e1d9, #0473d9);
+        border-radius: 15px; 
+        margin-top: 105px;  
+        margin-left:15px ;
+        position:absolute ;     
+    }    
 
     .temp{
         font-family: 'Familjen Grotesk', sans-serif;

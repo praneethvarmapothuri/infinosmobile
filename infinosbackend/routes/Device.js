@@ -162,7 +162,7 @@ router.post("/update_heater_temp",(req,res)=>{
 router.post("/update_cooler_temp",(req,res)=>{
 	const heater_id=req.body.cooler_id
 	const obs_temp=req.body.obs_temp ;
-	Heater.updateOne({"_id":heater_id},{$push:{observed_temp:obs_temp}}).then(heater=>{
+	Cooler.updateOne({"_id":heater_id},{$push:{observed_temp:obs_temp}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);

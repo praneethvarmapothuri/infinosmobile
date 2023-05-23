@@ -34,20 +34,20 @@ function Devices(){
     }
 
     useEffect(() => {
-        axios.get("http://localhost:4000/device/").then(res =>{
+        axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/").then(res =>{
             setDevices(res.data) ;
         })
       }, []);
 
     const changeStatus = (index) => (event) => {
         console.log(index,"hello") ;
-        var val=event.target.value ;
+        var val=Devices[index].status ;
         var request = {
             device_id:Devices[index]._id ,
-            status:(val === "on" ? true : false)
+            status:!val
         } ;
-        axios.post("http://localhost:4000/device/update_device",request).then(res=>{
-            axios.get("http://localhost:4000/device/").then(res =>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_device",request).then(res=>{
+            axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/").then(res =>{
                 setDevices(res.data) ;
             })                
         })
@@ -69,8 +69,8 @@ function Devices(){
                     safety_high_temp:100,
                     bag_temp:25
                 }
-                axios.post("http://localhost:4000/device/add_device",newDevice).then(res=>{
-                    axios.get("http://localhost:4000/device/").then(resp =>{
+                axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/add_device",newDevice).then(res=>{
+                    axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/").then(resp =>{
                         setDevices(resp.data) ;
                     }).catch(err=>{
                         console.log(err) ;

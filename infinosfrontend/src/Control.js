@@ -52,13 +52,13 @@ function Control(){
         const devinfo={
             device_id:device_id
         }
-        axios.get("http://localhost:4000/device/get_device",{params:{device_id:device_id}}).then(res=>{
+        axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/get_device",{params:{device_id:device_id}}).then(res=>{
             SetDevice(res.data) ;
             console.log(res.data) ;
             var heater_ids=res.data.heating ;
             var cooler_ids=res.data.cooling ;
             var battery_ids=res.data.battery ;
-            axios.get("http://localhost:4000/device/get_heaters",{params:{heater_ids:heater_ids}}).then(res1=>{
+            axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/get_heaters",{params:{heater_ids:heater_ids}}).then(res1=>{
                 SetHeating(res1.data) ;
                 var n = res1.data.length ;
                 const Heatplots=[]
@@ -73,6 +73,7 @@ function Control(){
                             break ;
                         }
                     }
+                    vals.reverse() ;
                     var heatplot = {
                         labels:labels,
                         datasets:[
@@ -85,7 +86,7 @@ function Control(){
                     Heatplots.push(heatplot) ;
                 }
                 setHeatChartData(Heatplots) ;
-                axios.get("http://localhost:4000/device/get_coolers",{params:{cooler_ids:cooler_ids}}).then(res2=>{
+                axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/get_coolers",{params:{cooler_ids:cooler_ids}}).then(res2=>{
                     SetCooling(res2.data) ;
                     var n = res2.data.length ;
                     const Heatplots=[]
@@ -100,6 +101,7 @@ function Control(){
                                 break ;
                             }
                         }
+                        vals.reverse() ;
                         var heatplot = {
                             labels:labels,
                             datasets:[
@@ -112,7 +114,7 @@ function Control(){
                         Heatplots.push(heatplot) ;
                     }
                     setCoolChartData(Heatplots) ;                    
-                    axios.get("http://localhost:4000/device/get_batteries",{params:{battery_ids:battery_ids}}).then(res3=>{
+                    axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/get_batteries",{params:{battery_ids:battery_ids}}).then(res3=>{
                         SetBattery(res3.data) ;
                         var n = res3.data.length ;
                         const Heatplots=[]
@@ -127,6 +129,7 @@ function Control(){
                                     break ;
                                 }
                             }
+                            vals.reverse() ;
                             var heatplot = {
                                 labels:labels,
                                 datasets:[
@@ -158,7 +161,7 @@ function Control(){
             disc:disc,
             fan:fan
         }
-        axios.post("http://localhost:4000/device/update_heater",data).then(res=>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_heater",data).then(res=>{
             get_data()
         }).catch(err=>{
             console.log(err) ;
@@ -177,7 +180,7 @@ function Control(){
             disc:cont,
             fan:fan
         }
-        axios.post("http://localhost:4000/device/update_heater",data).then(res=>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_heater",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -197,7 +200,7 @@ function Control(){
             disc:!disc,
             fan:fan
         }
-        axios.post("http://localhost:4000/device/update_heater",data).then(res=>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_heater",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -218,7 +221,7 @@ function Control(){
             disc:disc,
             fan:!fan
         }
-        axios.post("http://localhost:4000/device/update_heater",data).then(res=>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_heater",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -239,7 +242,7 @@ function Control(){
             disc:disc,
             fan:fan
         }
-        axios.post("http://localhost:4000/device/update_cooler",data).then(res=>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_cooler",data).then(res=>{
             get_data()
         }).catch(err=>{
             console.log(err) ;
@@ -258,7 +261,7 @@ function Control(){
             disc:cont,
             fan:fan
         }
-        axios.post("http://localhost:4000/device/update_cooler",data).then(res=>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_cooler",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -278,7 +281,7 @@ function Control(){
             disc:!disc,
             fan:fan
         }
-        axios.post("http://localhost:4000/device/update_cooler",data).then(res=>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_cooler",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -299,7 +302,7 @@ function Control(){
             disc:disc,
             fan:!fan
         }
-        axios.post("http://localhost:4000/device/update_cooler",data).then(res=>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_cooler",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -314,7 +317,7 @@ function Control(){
             battery_id:heater_id,
             fan:!fan
         }
-        axios.post("http://localhost:4000/device/update_battery",data).then(res=>{
+        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_battery",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -330,6 +333,10 @@ function Control(){
     const AddSection = (e) =>{
         console.log("hello")
         if(age===10){
+            if(Heating.length>0){
+                alert("Heater Limit Reached") ;
+                return ;
+            }
             let name=window.prompt("Enter Name of Heater") ;
             if(name==="" || name===null){
               alert("Name of Heater cannot be empty") ;
@@ -344,10 +351,10 @@ function Control(){
                       fan:false,
                       observed_humidity:[0]
                   }
-                  axios.post("http://localhost:4000/device/add_heater",newHeater).then(res=>{
+                  axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/add_heater",newHeater).then(res=>{
                      var deviceid=localStorage.getItem('deviceid') ;
                      var heater_id =res.data._id ;
-                     axios.post("http://localhost:4000/device/ass_heater",{device_id:deviceid,heater_id:heater_id}).then(res1=>{
+                     axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/ass_heater",{device_id:deviceid,heater_id:heater_id}).then(res1=>{
                         get_data() ;
                      })
                   }).catch(err=>{
@@ -356,6 +363,10 @@ function Control(){
             }            
         }
         else if(age===20){
+            if(Cooling.length>0){
+                alert("Cooler Limit Reached") ;
+                return ;
+            }            
             let name=window.prompt("Enter Name of Cooler") ;
             if(name==="" || name===null){
               alert("Name of Cooler cannot be empty") ;
@@ -370,10 +381,10 @@ function Control(){
                       fan:false,
                       observed_humidity:[0]
                   }
-                  axios.post("http://localhost:4000/device/add_cooler",newHeater).then(res=>{
+                  axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/add_cooler",newHeater).then(res=>{
                      var deviceid=localStorage.getItem('deviceid') ;
                      var heater_id =res.data._id ;
-                     axios.post("http://localhost:4000/device/ass_cooler",{device_id:deviceid,cooler_id:heater_id}).then(res1=>{
+                     axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/ass_cooler",{device_id:deviceid,cooler_id:heater_id}).then(res1=>{
                         get_data() ;
                      })
                   }).catch(err=>{
@@ -382,6 +393,10 @@ function Control(){
             } 
         }
         else{
+            if(Battery.length>0){
+                alert("Battery Limit Reached") ;
+                return ;
+            }            
             let name=window.prompt("Enter Name of Battery") ;
             if(name==="" || name===null){
               alert("Name of Battery cannot be empty") ;
@@ -394,10 +409,10 @@ function Control(){
                       fan:false,
                       observed_humidity:[0]
                   }
-                  axios.post("http://localhost:4000/device/add_battery",newHeater).then(res=>{
+                  axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/add_battery",newHeater).then(res=>{
                      var deviceid=localStorage.getItem('deviceid') ;
                      var heater_id =res.data._id ;
-                     axios.post("http://localhost:4000/device/ass_battery",{device_id:deviceid,battery_id:heater_id}).then(res1=>{
+                     axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/ass_battery",{device_id:deviceid,battery_id:heater_id}).then(res1=>{
                         get_data() ;
                      })
                   }).catch(err=>{
@@ -408,7 +423,12 @@ function Control(){
     }
 
     useEffect(()=>{
-        get_data()
+        let interval = setInterval(() => {
+            get_data()
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
     },[])
 
     if(localStorage.getItem("open")==="true"){
@@ -429,7 +449,7 @@ function Control(){
        { control && Heating.map((item,index) =>
         <div className="components">
             <p className="header">{Heating[index].name}</p>
-            <div style={{float:"left"}} className="leftlabels">
+            {/* <div style={{float:"left"}} className="leftlabels">
             <p className="headinglabel">Desired Temperature</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
@@ -439,7 +459,7 @@ function Control(){
             <h6 className="headinglabel-1" sx={{float:"left",marginBottom:"0px"}}>Continous&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discrete&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fan</h6>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"110px"}}  checked={item.continous} onChange={HeatContChange(index)}/>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"5px"}}  checked={item.discrete} onChange={HeatDisChange(index)}/>
-            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} onChange={HeatFanChange(index)} checked={item.fan}/>
+            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} onChange={HeatFanChange(index)} checked={item.fan}/> */}
             <div style={{float:"left"}} className="leftlabels-2">
             <p className="headinglabel">Observable Temperature</p>
             </div>
@@ -460,7 +480,7 @@ function Control(){
         { control && Cooling.map((item,index) =>
         <div className="components">
             <p className="header">{item.name}</p>
-            <div style={{float:"left"}} className="leftlabels">
+            {/* <div style={{float:"left"}} className="leftlabels">
             <p className="headinglabel">Desired Temperature</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
@@ -470,7 +490,7 @@ function Control(){
             <h6 className="headinglabel-1" sx={{float:"left",marginBottom:"0px"}}>Continous&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discrete&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fan</h6>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"110px"}} defaultChecked checked={item.continous} onChange={CoolContChange(index)}/>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"5px"}} defaultChecked checked={item.discrete} onChange={CoolDisChange(index)}/>
-            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} defaultChecked checked={item.fan} onChange={CoolFanChange(index)}/>
+            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} defaultChecked checked={item.fan} onChange={CoolFanChange(index)}/> */}
             <div style={{float:"left"}} className="leftlabels-2">
             <p className="headinglabel">Observable Temperature</p>
             </div>
@@ -489,7 +509,7 @@ function Control(){
         )}    
         {/* Battery Compartment  */}
         { control && Battery.map((item,index) =>
-        <div className="components">
+        <div className="batterycomponents">
             <p className="header">{item.name}</p>
             <div style={{float:"left",width:"100px"}} className="leftlabels">
             <p className="headinglabel" style={{marginTop:"6px"}}>Battery Temperature</p>
@@ -507,7 +527,7 @@ function Control(){
                 InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.battery_charge_left[(item.battery_charge_left.length)-1]}
             >
             </TextField>   
-            <div className="left-labels-last">
+            <div className="left-labels-last-battery">
             <p className="headinglabel">Observable Humidity</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
@@ -552,7 +572,7 @@ function Control(){
         </div>}
         {/*Analysis  */}
         { analysis && Heating.map((item,index) =>
-        <div className="components">
+        <div className="batterycomponents">
             <p className="header">Observable Temperature</p>
             <p className="main-main-header">{"(" + Heating[index].name+")"}</p>    
             <br/>
@@ -563,7 +583,7 @@ function Control(){
         )}
         {/* Cooling Components */}
         { analysis && Cooling.map((item,index) =>
-        <div className="components">
+        <div className="batterycomponents">
             <p className="header">Observable Temperature</p>
             <p className="main-main-header">{item.name}</p>  
             <br/> 
@@ -574,7 +594,7 @@ function Control(){
         )}    
         {/* Battery Compartment  */}
         { analysis && Battery.map((item,index) =>
-        <div className="components">
+        <div className="batterycomponents">
             <p className="header">Battery Charge Left</p>
             <p className="main-main-header">{item.name}</p> 
             <br/> 

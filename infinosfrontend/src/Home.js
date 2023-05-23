@@ -14,7 +14,7 @@ function Home(){
             <Button onClick={()=>{
                 navigate("/devices") ;
             }} className= "Addbtn" sx={{fontSize:"10px"}} variant="contained" label="Button" labelStyle={{ fontSize: '12px'}}>List of Devices</Button>
-            <img src={home_icon} style={{width:"350px",height:"380px",marginTop:"100px",marginLeft:"25px",border:"1px solid black"}}></img>
+            <img src={home_icon} style={{width:"340px",height:"380px",marginTop:"100px",marginLeft:"10px",border:"1px solid black"}}></img>
         </div>
 
     )
