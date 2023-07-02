@@ -44,7 +44,6 @@ function Control(){
     const [CoolChartData,setCoolChartData] = useState([]) ;
     const [BatteryChartData,setBatteryChartData] = useState([]) ;
     const navigate = useNavigate() ;
-    const labels = [1,2,3,4,5,6,7,8,9,10]
 
     const get_data = () =>{
         var device_id=localStorage.getItem('deviceid') ;
@@ -52,13 +51,13 @@ function Control(){
         const devinfo={
             device_id:device_id
         }
-        axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/get_device",{params:{device_id:device_id}}).then(res=>{
+        axios.get("http://localhost:4000/device/get_device",{params:{device_id:device_id}}).then(res=>{
             SetDevice(res.data) ;
             console.log(res.data) ;
             var heater_ids=res.data.heating ;
             var cooler_ids=res.data.cooling ;
             var battery_ids=res.data.battery ;
-            axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/get_heaters",{params:{heater_ids:heater_ids}}).then(res1=>{
+            axios.get("http://localhost:4000/device/get_heaters",{params:{heater_ids:heater_ids}}).then(res1=>{
                 SetHeating(res1.data) ;
                 var n = res1.data.length ;
                 const Heatplots=[]
@@ -66,14 +65,17 @@ function Control(){
                     var vals=[] ;
                     var len=res1.data[i].observed_temp.length ;
                     var cnt=0 ;
+                    const labels=[]
                     for(var j=len-1;j>=0;j--){
-                        vals.push(res1.data[i].observed_temp[j]) ;
+                        vals.push(res1.data[i].observed_temp[j]["obs_temp"]) ;
+                        labels.push(res1.data[i].observed_temp[j]["Date"])
                         cnt=cnt+1 ;
-                        if(cnt>=10){
+                        if(cnt>=8){
                             break ;
                         }
                     }
                     vals.reverse() ;
+                    labels.reverse() ;
                     var heatplot = {
                         labels:labels,
                         datasets:[
@@ -86,7 +88,7 @@ function Control(){
                     Heatplots.push(heatplot) ;
                 }
                 setHeatChartData(Heatplots) ;
-                axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/get_coolers",{params:{cooler_ids:cooler_ids}}).then(res2=>{
+                axios.get("http://localhost:4000/device/get_coolers",{params:{cooler_ids:cooler_ids}}).then(res2=>{
                     SetCooling(res2.data) ;
                     var n = res2.data.length ;
                     const Heatplots=[]
@@ -94,14 +96,17 @@ function Control(){
                         var vals=[] ;
                         var len=res2.data[i].observed_temp.length ;
                         var cnt=0 ;
+                        const labels=[]
                         for(var j=len-1;j>=0;j--){
-                            vals.push(res2.data[i].observed_temp[j]) ;
+                            vals.push(res2.data[i].observed_temp[j]["obs_temp"]) ;
+                            labels.push(res2.data[i].observed_temp[j]["Date"])
                             cnt=cnt+1 ;
-                            if(cnt>=10){
+                            if(cnt>=8){
                                 break ;
                             }
                         }
                         vals.reverse() ;
+                        labels.reverse() ;
                         var heatplot = {
                             labels:labels,
                             datasets:[
@@ -114,7 +119,7 @@ function Control(){
                         Heatplots.push(heatplot) ;
                     }
                     setCoolChartData(Heatplots) ;                    
-                    axios.get("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/get_batteries",{params:{battery_ids:battery_ids}}).then(res3=>{
+                    axios.get("http://localhost:4000/device/get_batteries",{params:{battery_ids:battery_ids}}).then(res3=>{
                         SetBattery(res3.data) ;
                         var n = res3.data.length ;
                         const Heatplots=[]
@@ -122,6 +127,7 @@ function Control(){
                             var vals=[] ;
                             var len=res3.data[i].battery_charge_left.length ;
                             var cnt=0 ;
+                            const labels=[1,2,3,4,5,6,7,8,9,10]
                             for(var j=len-1;j>=0;j--){
                                 vals.push(res3.data[i].battery_charge_left[j]) ;
                                 cnt=cnt+1 ;
@@ -161,7 +167,7 @@ function Control(){
             disc:disc,
             fan:fan
         }
-        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_heater",data).then(res=>{
+        axios.post("http://localhost:4000/device/update_heater",data).then(res=>{
             get_data()
         }).catch(err=>{
             console.log(err) ;
@@ -180,7 +186,7 @@ function Control(){
             disc:cont,
             fan:fan
         }
-        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_heater",data).then(res=>{
+        axios.post("http://localhost:4000/device/update_heater",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -200,7 +206,7 @@ function Control(){
             disc:!disc,
             fan:fan
         }
-        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_heater",data).then(res=>{
+        axios.post("http://localhost:4000/device/update_heater",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -221,7 +227,7 @@ function Control(){
             disc:disc,
             fan:!fan
         }
-        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_heater",data).then(res=>{
+        axios.post("http://localhost:4000/device/update_heater",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -242,7 +248,7 @@ function Control(){
             disc:disc,
             fan:fan
         }
-        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_cooler",data).then(res=>{
+        axios.post("http://localhost:4000/device/update_cooler",data).then(res=>{
             get_data()
         }).catch(err=>{
             console.log(err) ;
@@ -261,7 +267,7 @@ function Control(){
             disc:cont,
             fan:fan
         }
-        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_cooler",data).then(res=>{
+        axios.post("http://localhost:4000/device/update_cooler",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -281,7 +287,7 @@ function Control(){
             disc:!disc,
             fan:fan
         }
-        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_cooler",data).then(res=>{
+        axios.post("http://localhost:4000/device/update_cooler",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -302,7 +308,7 @@ function Control(){
             disc:disc,
             fan:!fan
         }
-        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_cooler",data).then(res=>{
+        axios.post("http://localhost:4000/device/update_cooler",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -317,7 +323,7 @@ function Control(){
             battery_id:heater_id,
             fan:!fan
         }
-        axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/update_battery",data).then(res=>{
+        axios.post("http://localhost:4000/device/update_battery",data).then(res=>{
             console.log(res) ;
             get_data()
         }).catch(err=>{
@@ -351,10 +357,10 @@ function Control(){
                       fan:false,
                       observed_humidity:[0]
                   }
-                  axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/add_heater",newHeater).then(res=>{
+                  axios.post("http://localhost:4000/device/add_heater",newHeater).then(res=>{
                      var deviceid=localStorage.getItem('deviceid') ;
                      var heater_id =res.data._id ;
-                     axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/ass_heater",{device_id:deviceid,heater_id:heater_id}).then(res1=>{
+                     axios.post("http://localhost:4000/device/ass_heater",{device_id:deviceid,heater_id:heater_id}).then(res1=>{
                         get_data() ;
                      })
                   }).catch(err=>{
@@ -381,10 +387,10 @@ function Control(){
                       fan:false,
                       observed_humidity:[0]
                   }
-                  axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/add_cooler",newHeater).then(res=>{
+                  axios.post("http://localhost:4000/device/add_cooler",newHeater).then(res=>{
                      var deviceid=localStorage.getItem('deviceid') ;
                      var heater_id =res.data._id ;
-                     axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/ass_cooler",{device_id:deviceid,cooler_id:heater_id}).then(res1=>{
+                     axios.post("http://localhost:4000/device/ass_cooler",{device_id:deviceid,cooler_id:heater_id}).then(res1=>{
                         get_data() ;
                      })
                   }).catch(err=>{
@@ -409,10 +415,10 @@ function Control(){
                       fan:false,
                       observed_humidity:[0]
                   }
-                  axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/add_battery",newHeater).then(res=>{
+                  axios.post("http://localhost:4000/device/add_battery",newHeater).then(res=>{
                      var deviceid=localStorage.getItem('deviceid') ;
                      var heater_id =res.data._id ;
-                     axios.post("http://ec2-13-232-143-132.ap-south-1.compute.amazonaws.com:4000/device/ass_battery",{device_id:deviceid,battery_id:heater_id}).then(res1=>{
+                     axios.post("http://localhost:4000/device/ass_battery",{device_id:deviceid,battery_id:heater_id}).then(res1=>{
                         get_data() ;
                      })
                   }).catch(err=>{
@@ -464,45 +470,45 @@ function Control(){
             <p className="headinglabel">Observable Temperature</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
-                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.observed_temp[(item.observed_temp.length)-1]}
+                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.observed_temp[(item.observed_temp.length)-1]["obs_temp"]}
             >
             </TextField>   
             <div className="left-labels-last">
             <p className="headinglabel">Observable Humidity</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
-                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.observed_humidity[(item.observed_humidity.length)-1]}
+                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.observed_humidity[(item.observed_humidity.length)-1].obs_humidity}
             >
             </TextField>                                                                                             
         </div>
         )}
         {/* Cooling Components */}
         { control && Cooling.map((item,index) =>
-        <div className="components">
+        <div className="coolingcomponents">
             <p className="header">{item.name}</p>
-            <div style={{float:"left"}} className="leftlabels">
+            {/* <div style={{float:"left"}} className="leftlabels">
             <p className="headinglabel">Desired Temperature</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
                 InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.desired_temp}
             >
-            </TextField>
-            <h6 className="headinglabel-1" sx={{float:"left",marginBottom:"0px"}}>Continous&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discrete&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fan</h6>
+            </TextField> */}
+            {/* <h6 className="coolingheadinglabel-1" sx={{float:"left",marginBottom:"0px"}}>Continous&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discrete&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fan</h6>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"110px"}} defaultChecked checked={item.continous} onChange={CoolContChange(index)}/>
             <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"5px"}} defaultChecked checked={item.discrete} onChange={CoolDisChange(index)}/>
-            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} defaultChecked checked={item.fan} onChange={CoolFanChange(index)}/>
+            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left"}} defaultChecked checked={item.fan} onChange={CoolFanChange(index)}/> */}
             <div style={{float:"left"}} className="leftlabels-2">
             <p className="headinglabel">Observable Temperature</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
-                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.observed_temp[(item.observed_temp.length)-1]}
+                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.observed_temp[(item.observed_temp.length)-1].obs_temp}
             >
             </TextField>   
-            <div className="left-labels-last">
+            <div className="coolingleft-labels-last">
             <p className="headinglabel">Observable Humidity</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
-                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.observed_humidity[(item.observed_humidity.length)-1]}
+                InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.observed_humidity[(item.observed_humidity.length)-1].obs_humidity}
             >
             </TextField>                                                                                             
         </div>
@@ -511,34 +517,35 @@ function Control(){
         { control && Battery.map((item,index) =>
         <div className="batterycomponents">
             <p className="header">{item.name}</p>
-            <div style={{float:"left",width:"100px"}} className="leftlabels">
+            {/* <div style={{float:"left",width:"100px"}} className="leftlabels">
             <p className="headinglabel" style={{marginTop:"6px"}}>Battery Temperature</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
                 InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.battery_temp[(item.battery_temp.length)-1]}
             >
-            </TextField>
+            </TextField> */}
             <h6 className="headinglabel-6" sx={{float:"left",marginBottom:"0px"}}>Fan</h6>
-            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"left",marginLeft:"175px"}} defaultChecked checked={item.fan} onChange={BatteryFanChange(index)} />
+            <PinkSwitch sx={{width:"60px",marginTop:"0px",float:"center",marginLeft:"0px"}} defaultChecked checked={item.fan} onChange={BatteryFanChange(index)} />
+            <br/>
             <div style={{float:"left",width:"100px"}} className="leftlabels-2">
-            <p className="headinglabel" style={{marginTop:"6px"}}>Battery Charge Left</p>
+            <p className="headinglabel" style={{marginTop:"6px"}}>Charge/Voltage</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
                 InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.battery_charge_left[(item.battery_charge_left.length)-1]}
             >
             </TextField>   
-            <div className="left-labels-last-battery">
+            {/* <div className="left-labels-last-battery">
             <p className="headinglabel">Observable Humidity</p>
             </div>
             <TextField className="textfield" style={{float:"left",marginTop:"17px",width:"170px",marginLeft:"13px",border:"1px solid black"}} size="small"
                 InputProps={{ sx: { height: 30,fontSize:10 } }} value={item.observed_humidity[(item.observed_humidity.length)-1]}
             >
-            </TextField>                                                                                             
+            </TextField>                                                                                              */}
         </div>
         )}
         {/* Safety*/}
        { control && <div className="safetycomponent">
-        <p className="header" style={{marginBottom:"0px"}}>Safety</p>
+        <p className="header" style={{marginBottom:"0px"}}>Device Safety</p>
         <br/>
         <img style={{float:"left",width:"34.98px",height:"49.92px",marginLeft:"10px"}} src={lowtemp}></img>
             <div style={{float:"left",marginLeft:"10px",marginTop:"5px",width:"64.2px",height:"35.03px",backgroundColor:"#00FFF0",border:"2px solid black"}}>
@@ -572,7 +579,7 @@ function Control(){
         </div>}
         {/*Analysis  */}
         { analysis && Heating.map((item,index) =>
-        <div className="batterycomponents">
+        <div className="analysisbatterycomponents">
             <p className="header">Observable Temperature</p>
             <p className="main-main-header">{"(" + Heating[index].name+")"}</p>    
             <br/>
@@ -583,7 +590,7 @@ function Control(){
         )}
         {/* Cooling Components */}
         { analysis && Cooling.map((item,index) =>
-        <div className="batterycomponents">
+        <div className="analysisbatterycomponents">
             <p className="header">Observable Temperature</p>
             <p className="main-main-header">{item.name}</p>  
             <br/> 
@@ -594,8 +601,8 @@ function Control(){
         )}    
         {/* Battery Compartment  */}
         { analysis && Battery.map((item,index) =>
-        <div className="batterycomponents">
-            <p className="header">Battery Charge Left</p>
+        <div className="analysisbatterycomponents">
+            <p className="header">Charge/Voltage</p>
             <p className="main-main-header">{item.name}</p> 
             <br/> 
             <div style={{ width: "270px", marginLeft:"20px",border:"2px solid black" }}>

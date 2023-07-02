@@ -62,6 +62,7 @@
         margin-top: 20px ; 
         margin-bottom: 0px;  
     }
+  
 
     .components{
         width:313px ;
@@ -70,12 +71,26 @@
         border: 1px solid black;
     }
 
+    .coolingcomponents{
+        width:313px ;
+        height:210px ;
+        margin-left:30px ;
+        border: 1px solid black;
+    }
+
     .batterycomponents{
+        width:313px ;
+        height:200px ;
+        margin-left:30px ;
+        border: 1px solid black;
+    }
+
+    .analysisbatterycomponents{
         width:313px ;
         height:330px ;
         margin-left:30px ;
         border: 1px solid black;
-    }
+    }    
 
 
     .leftlabels{
@@ -130,25 +145,46 @@
         width:50px ;
         text-align: left;
     }
-    
 
-    .headinglabel-6{
+    .coolingheadinglabel-1{
         font-family: 'Familjen Grotesk', sans-serif;
         font-size: 12px;        
-        margin-top: 60px; 
-        margin-left: 195px;
+        margin-top: 20px; 
+        margin-left: 120px;
         margin-bottom:0px ;
         height:10px ;
         width:50px ;
         text-align: left;
     }    
+    
 
+    .headinglabel-6{
+        font-family: 'Familjen Grotesk', sans-serif;
+        font-size: 12px;        
+        margin-top: 10px; 
+        margin-left: 143px;
+        margin-bottom:0px ;
+        height:10px ;
+        width:50px ;
+        text-align: left;
+    } 
+    
     .left-labels-last{
         width:88px ;
         height:30px ;
         background: linear-gradient(180deg, #53e1d9, #0473d9);
         border-radius: 15px; 
         margin-top: 105px;  
+        margin-left:15px ;
+        position:absolute ;     
+    }    
+
+    .coolingleft-labels-last{
+        width:88px ;
+        height:30px ;
+        background: linear-gradient(180deg, #53e1d9, #0473d9);
+        border-radius: 15px; 
+        margin-top: 70px;  
         margin-left:15px ;
         position:absolute ;     
     }

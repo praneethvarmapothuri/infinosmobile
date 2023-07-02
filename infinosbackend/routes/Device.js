@@ -150,9 +150,10 @@ router.post("/update_heater",(req,res)=>{
 })
 
 router.post("/update_heater_temp",(req,res)=>{
+	let currentDate = new Date();
 	const heater_id=req.body.heater_id
 	const obs_temp=req.body.obs_temp ;
-	Heater.updateOne({"_id":heater_id},{$push:{observed_temp:obs_temp}}).then(heater=>{
+	Heater.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":currentDate.toLocaleTimeString([],{ hour12: false })}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -160,9 +161,10 @@ router.post("/update_heater_temp",(req,res)=>{
 })
 
 router.post("/update_heater_humidity",(req,res)=>{
+	let currentDate = new Date();
 	const heater_id=req.body.heater_id
 	const obs_humidity=req.body.obs_humidity ;
-	Heater.updateOne({"_id":heater_id},{$push:{observed_humidity:obs_humidity}}).then(heater=>{
+	Heater.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":currentDate.toLocaleTimeString([],{ hour12: false })}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -172,7 +174,8 @@ router.post("/update_heater_humidity",(req,res)=>{
 router.post("/update_cooler_temp",(req,res)=>{
 	const heater_id=req.body.cooler_id
 	const obs_temp=req.body.obs_temp ;
-	Cooler.updateOne({"_id":heater_id},{$push:{observed_temp:obs_temp}}).then(heater=>{
+	let currentDate = new Date() ;
+	Cooler.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":currentDate.toLocaleTimeString([],{ hour12: false })}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -182,7 +185,8 @@ router.post("/update_cooler_temp",(req,res)=>{
 router.post("/update_cooler_humidity",(req,res)=>{
 	const heater_id=req.body.cooler_id
 	const obs_humidity=req.body.obs_humidity ;
-	Cooler.updateOne({"_id":heater_id},{$push:{observed_humidity:obs_humidity}}).then(heater=>{
+	let currentDate = new Date() ;
+	Cooler.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":currentDate.toLocaleTimeString([],{ hour12: false })}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
