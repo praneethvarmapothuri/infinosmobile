@@ -153,7 +153,16 @@ router.post("/update_heater_temp",(req,res)=>{
 	let currentDate = new Date();
 	const heater_id=req.body.heater_id
 	const obs_temp=req.body.obs_temp ;
-	Heater.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":currentDate.toLocaleTimeString([],{ hour12: false })}}}).then(heater=>{
+	var dateUTC  = new Date() ; 
+	var dateIST = new Date(dateUTC);
+//date shifting for IST timezone (+5 hours and 30 minutes)
+	dateIST.setHours(dateIST.getHours() + 5); 
+	dateIST.setMinutes(dateIST.getMinutes() + 30);
+	var x=dateIST.getHours()
+	var y=dateIST.getMinutes()
+	var z=dateIST.getSeconds()
+	var time = x+":"+y+":"+z ;
+	Heater.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":time}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -164,7 +173,16 @@ router.post("/update_heater_humidity",(req,res)=>{
 	let currentDate = new Date();
 	const heater_id=req.body.heater_id
 	const obs_humidity=req.body.obs_humidity ;
-	Heater.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":currentDate.toLocaleTimeString([],{ hour12: false })}}}).then(heater=>{
+	var dateUTC  = new Date() ; 
+	var dateIST = new Date(dateUTC);
+//date shifting for IST timezone (+5 hours and 30 minutes)
+	dateIST.setHours(dateIST.getHours() + 5); 
+	dateIST.setMinutes(dateIST.getMinutes() + 30);
+	var x=dateIST.getHours()
+	var y=dateIST.getMinutes()
+	var z=dateIST.getSeconds()
+	var time = x+":"+y+":"+z ;	
+	Heater.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":time}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -174,8 +192,16 @@ router.post("/update_heater_humidity",(req,res)=>{
 router.post("/update_cooler_temp",(req,res)=>{
 	const heater_id=req.body.cooler_id
 	const obs_temp=req.body.obs_temp ;
-	let currentDate = new Date() ;
-	Cooler.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":currentDate.toLocaleTimeString([],{ hour12: false })}}}).then(heater=>{
+	var dateUTC  = new Date() ; 
+	var dateIST = new Date(dateUTC);
+//date shifting for IST timezone (+5 hours and 30 minutes)
+	dateIST.setHours(dateIST.getHours() + 5); 
+	dateIST.setMinutes(dateIST.getMinutes() + 30);
+	var x=dateIST.getHours()
+	var y=dateIST.getMinutes()
+	var z=dateIST.getSeconds()
+	var time = x+":"+y+":"+z ;	
+	Cooler.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":time}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -185,8 +211,16 @@ router.post("/update_cooler_temp",(req,res)=>{
 router.post("/update_cooler_humidity",(req,res)=>{
 	const heater_id=req.body.cooler_id
 	const obs_humidity=req.body.obs_humidity ;
-	let currentDate = new Date() ;
-	Cooler.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":currentDate.toLocaleTimeString([],{ hour12: false })}}}).then(heater=>{
+	var dateUTC  = new Date() ; 
+	var dateIST = new Date(dateUTC);
+//date shifting for IST timezone (+5 hours and 30 minutes)
+	dateIST.setHours(dateIST.getHours() + 5); 
+	dateIST.setMinutes(dateIST.getMinutes() + 30);
+	var x=dateIST.getHours()
+	var y=dateIST.getMinutes()
+	var z=dateIST.getSeconds()
+	var time = x+":"+y+":"+z ;	
+	Cooler.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":time}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
