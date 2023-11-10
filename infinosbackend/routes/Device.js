@@ -306,6 +306,27 @@ router.get("/get_batteries",(req,res)=>{
 	})
 })
 
+router.post("/update_battery_charge",(req,res)=>{
+	const heater_id=req.body.battery_id
+	const charge=req.body.charge ;
+	var dateUTC  = new Date() ; 
+	var dateIST = new Date(dateUTC);
+//date shifting for IST timezone (+5 hours and 30 minutes)
+	dateIST.setHours(dateIST.getHours() + 5); 
+	dateIST.setMinutes(dateIST.getMinutes() + 30);
+	var x=dateIST.getHours()
+	var y=dateIST.getMinutes()
+	var z=dateIST.getSeconds()
+	var time = x+":"+y+":"+z ;	
+	Battery.updateOne({"_id":heater_id},{$push:{battery_charge_left:{"battery_charge_left":charge,"Date":time}}}).then(heater=>{
+		res.status(200).json(heater);
+	}).catch(err => {
+		res.status(400).send(err);
+	});	
+})
+
+
+
 
 
 
