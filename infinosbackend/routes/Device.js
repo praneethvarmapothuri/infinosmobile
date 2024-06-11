@@ -162,7 +162,7 @@ router.post("/update_heater_temp",(req,res)=>{
 	var y=dateIST.getMinutes()
 	var z=dateIST.getSeconds()
 	var time = x+":"+y+":"+z ;
-	Heater.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":time}}}).then(heater=>{
+	Heater.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":time,"TimeStamp":dateIST}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -182,7 +182,7 @@ router.post("/update_heater_humidity",(req,res)=>{
 	var y=dateIST.getMinutes()
 	var z=dateIST.getSeconds()
 	var time = x+":"+y+":"+z ;	
-	Heater.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":time}}}).then(heater=>{
+	Heater.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":time,"TimeStamp":dateIST}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -201,7 +201,7 @@ router.post("/update_cooler_temp",(req,res)=>{
 	var y=dateIST.getMinutes()
 	var z=dateIST.getSeconds()
 	var time = x+":"+y+":"+z ;	
-	Cooler.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":time}}}).then(heater=>{
+	Cooler.updateOne({"_id":heater_id},{$push:{observed_temp:{"obs_temp":obs_temp,"Date":time,"TimeStamp":dateIST}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -220,7 +220,7 @@ router.post("/update_cooler_humidity",(req,res)=>{
 	var y=dateIST.getMinutes()
 	var z=dateIST.getSeconds()
 	var time = x+":"+y+":"+z ;	
-	Cooler.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":time}}}).then(heater=>{
+	Cooler.updateOne({"_id":heater_id},{$push:{observed_humidity:{"obs_humidity":obs_humidity,"Date":time,"TimeStamp":dateIST}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);
@@ -318,7 +318,7 @@ router.post("/update_battery_charge",(req,res)=>{
 	var y=dateIST.getMinutes()
 	var z=dateIST.getSeconds()
 	var time = x+":"+y+":"+z ;	
-	Battery.updateOne({"_id":heater_id},{$push:{battery_charge_left:{"battery_charge_left":charge,"Date":time}}}).then(heater=>{
+	Battery.updateOne({"_id":heater_id},{$push:{battery_charge_left:{"battery_charge_left":charge,"Date":time,"TimeStamp":dateIST}}}).then(heater=>{
 		res.status(200).json(heater);
 	}).catch(err => {
 		res.status(400).send(err);

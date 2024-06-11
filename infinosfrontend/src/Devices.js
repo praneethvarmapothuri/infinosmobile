@@ -10,6 +10,9 @@ import Switch from "@mui/material/Switch";
 import { useNavigate } from "react-router-dom";
 import { Fragment } from "react";
 import axios from "axios";
+import { responsiveProperty } from "@mui/material/styles/cssUtils";
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 const PinkSwitch = styled(Switch)(({ theme }) => ({
     '& .MuiSwitch-switchBase.Mui-checked': {
@@ -35,6 +38,7 @@ function Devices(){
 
     useEffect(() => {
         axios.get("http://localhost:4000/device/").then(res =>{
+            console.log(res.data,"hello")
             setDevices(res.data) ;
         })
       }, []);
@@ -81,6 +85,143 @@ function Devices(){
           }
       }
 
+      const DownloadLogs = (index) => (e)=>{
+        e.stopPropagation()
+        var heaterId = Devices[index]["heating"]
+        var coolerId = Devices[index]["cooling"]
+        var batteryId = Devices[index]["battery"]
+        const doc = new jsPDF()
+        axios.get("http://localhost:4000/device/get_heaters",{params:{heater_ids:heaterId}}).then(res=>{
+            var n = res.data.length ;
+            console.log(heaterId,"hello") ;
+            console.log(res,"hello")
+            var jsonData = [] ;
+            var jsonDataHumidity = [] ;
+            for(var i=0;i<n;i++){
+                var vals=[] ;
+                var len=res.data[i].observed_temp.length ;
+                var cnt=0 ;
+                const labels=[]
+                for(var j=len-1;j>=0;j--){
+                    jsonData.push([
+                        Devices[index]["name"]+" Heater",
+                        res.data[i].observed_temp[j]["obs_temp"],
+                        (res.data[i].observed_temp[j]["TimeStamp"]!=undefined ? res.data[i].observed_temp[j]["TimeStamp"] :res.data[i].observed_temp[j]["Date"]),
+                    ])                  
+                    cnt=cnt+1 ;
+                    if(cnt>=1000){
+                        break ;
+                    }
+                }
+            }
+            for(var i=0;i<n;i++){
+                var vals=[] ;
+                var len=res.data[i].observed_humidity.length ;
+                var cnt=0 ;
+                const labels=[]
+                for(var j=len-1;j>=0;j--){
+                    jsonDataHumidity.push([
+                        Devices[index]["name"]+" Heater",
+                        res.data[i].observed_humidity[j]["obs_humidity"],
+                        (res.data[i].observed_humidity[j]["TimeStamp"]!=undefined ? res.data[i].observed_humidity[j]["TimeStamp"] :res.data[i].observed_humidity[j]["Date"]),
+                    ])                  
+                    cnt=cnt+1 ;
+                    if(cnt>=1000){
+                        break ;
+                    }
+                }
+            }            
+            doc.autoTable({
+                head: [['Device','Temperature','TimeStamp']],
+                body: jsonData
+            })
+            doc.autoTable({
+                head: [['Device','Humidity','TimeStamp']],
+                body: jsonDataHumidity
+            })  
+
+            axios.get("http://localhost:4000/device/get_coolers",{params:{cooler_ids:coolerId}}).then(res=>{
+                var n = res.data.length ;
+                console.log(coolerId,"hello") ;
+                console.log(res,"hello")
+                var jsonData = [] ;
+                var jsonDataHumidity = [] ;
+                for(var i=0;i<n;i++){
+                    var vals=[] ;
+                    var len=res.data[i].observed_temp.length ;
+                    var cnt=0 ;
+                    const labels=[]
+                    for(var j=len-1;j>=0;j--){
+                        jsonData.push([
+                            Devices[index]["name"]+" Cooler",
+                            res.data[i].observed_temp[j]["obs_temp"],
+                            (res.data[i].observed_temp[j]["TimeStamp"]!=undefined ? res.data[i].observed_temp[j]["TimeStamp"] :res.data[i].observed_temp[j]["Date"]),
+                        ])                  
+                        cnt=cnt+1 ;
+                        if(cnt>=1000){
+                            break ;
+                        }
+                    }
+                }
+                for(var i=0;i<n;i++){
+                    var vals=[] ;
+                    var len=res.data[i].observed_humidity.length ;
+                    var cnt=0 ;
+                    const labels=[]
+                    for(var j=len-1;j>=0;j--){
+                        jsonDataHumidity.push([
+                            Devices[index]["name"]+" Cooler",
+                            res.data[i].observed_humidity[j]["obs_humidity"],
+                            (res.data[i].observed_humidity[j]["TimeStamp"]!=undefined ? res.data[i].observed_humidity[j]["TimeStamp"] :res.data[i].observed_humidity[j]["Date"]),
+                        ])                  
+                        cnt=cnt+1 ;
+                        if(cnt>=1000){
+                            break ;
+                        }
+                    }
+                }            
+                doc.autoTable({
+                    head: [['Device','Temperature','TimeStamp']],
+                    body: jsonData
+                })
+                doc.autoTable({
+                    head: [['Device','Humidity','TimeStamp']],
+                    body: jsonDataHumidity
+                })
+                
+                axios.get("http://localhost:4000/device/get_batteries",{params:{battery_ids:batteryId}}).then(res=>{
+                    var n = res.data.length ;
+                    var jsonData = [] ;
+                    for(var i=0;i<n;i++){
+                        var vals=[] ;
+                        var len=res.data[i].battery_charge_left.length ;
+                        var cnt=0 ;
+                        const labels=[]
+                        for(var j=len-1;j>=0;j--){
+                            jsonData.push([
+                                Devices[index]["name"]+" Battery",
+                                res.data[i].battery_charge_left[j]["battery_charge_left"],
+                                (res.data[i].battery_charge_left[j]["TimeStamp"]!=undefined ? res.data[i].battery_charge_left[j]["TimeStamp"] :res.data[i].battery_charge_left[j]["Date"]),
+                            ])                  
+                            cnt=cnt+1 ;
+                            if(cnt>=1000){
+                                break ;
+                            }
+                        }
+                    }        
+                    doc.autoTable({
+                        head: [['Device',' Battery Charge Left','TimeStamp']],
+                        body: jsonData
+                    })          
+                    doc.save(Devices[index]["name"]+' Logs.pdf')           
+                }
+                ) 
+            }
+            )                              
+        }
+        )
+}
+
     const handleChildElementClick = (e) => {
         e.stopPropagation()
      }
@@ -92,7 +233,8 @@ function Devices(){
                 navigate("/") ;
             }}></img>
             <Button className= "Addbtn" onClick={AddDevice} sx={{fontSize:"12px"}} variant="contained" label="Button" labelStyle={{ fontSize: '12px'}}startIcon={<AddIcon />}>Add Device</Button>
-            <br/><br/><br/>
+            <br/><br/>
+            <br/>
             { Devices.map((item,index) =>
                 <Fragment>
                 <div onClick={()=>{
@@ -105,6 +247,8 @@ function Devices(){
                     <p className="devname">{item.name}</p>
                     <p style={{marginBottom:"0px",marginTop:"30px",fontSize:"14px",color:"#ffffff"}}>{item.status ? "Connected" : "Disconnected"}</p>
                     <PinkSwitch onClick={(e) => handleChildElementClick(e)} sx={{width:"60px",marginTop:"0px"}} className="switch" checked={item.status} onChange={changeStatus(index)}/>
+                    <br/>
+                    <Button className= "Addbtn1" onClick={DownloadLogs(index)} sx={{backgroundColor:"grey",fontSize:"10px"}} variant="contained" label="Button" labelStyle={{ fontSize: '12px'}}>Logs</Button>
                 </div>
                 </Fragment>
             )
